@@ -55,7 +55,7 @@ pub fn publish_verification_requested_event(
     requester: Address,
     evidence_cid: String,
 ) {
-     env.events().publish(
+    env.events().publish(
         (symbol_short!("VERIFY"), symbol_short!("REQ"), project_id),
         (requester, evidence_cid),
     );

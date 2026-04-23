@@ -24,16 +24,18 @@ impl VerificationRegistry {
         requester.require_auth();
 
         // 1. Validate project existence and ownership
-        let mut project = ProjectRegistry::get_project(env, project_id)
-            .ok_or(ContractError::ProjectNotFound)?;
-        
+        let mut project =
+            ProjectRegistry::get_project(env, project_id).ok_or(ContractError::ProjectNotFound)?;
+
         if project.owner != requester {
             return Err(ContractError::Unauthorized);
         }
 
         // 2. Check if already verified or pending
-        if project.verification_status != VerificationStatus::Unverified && project.verification_status != VerificationStatus::Rejected {
-             return Err(ContractError::InvalidStatusTransition);
+        if project.verification_status != VerificationStatus::Unverified
+            && project.verification_status != VerificationStatus::Rejected
+        {
+            return Err(ContractError::InvalidStatusTransition);
         }
 
         // 3. Consume fee payment
@@ -78,8 +80,8 @@ impl VerificationRegistry {
         AdminManager::require_admin(env, &admin)?;
 
         // Get project
-        let mut project = ProjectRegistry::get_project(env, project_id)
-            .ok_or(ContractError::ProjectNotFound)?;
+        let mut project =
+            ProjectRegistry::get_project(env, project_id).ok_or(ContractError::ProjectNotFound)?;
 
         // Get verification record
         let mut record = Self::get_verification(env, project_id)?;
@@ -116,8 +118,8 @@ impl VerificationRegistry {
         AdminManager::require_admin(env, &admin)?;
 
         // Get project
-        let mut project = ProjectRegistry::get_project(env, project_id)
-            .ok_or(ContractError::ProjectNotFound)?;
+        let mut project =
+            ProjectRegistry::get_project(env, project_id).ok_or(ContractError::ProjectNotFound)?;
 
         // Get verification record
         let mut record = Self::get_verification(env, project_id)?;
